@@ -70,6 +70,17 @@ def complete(sno):
     db.session.commit()
     return redirect('/')
 
+@app.route('/search')
+def search():
+    query = request.args.get('query')   
+    
+    if query:
+        all_todos = Todo.query.filter(Todo.title.contains(query)).all()
+    else:
+        all_todos = Todo.query.all()
+    
+    return render_template('index.html', all_todos=all_todos, query=query)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

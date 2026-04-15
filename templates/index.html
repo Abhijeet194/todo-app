@@ -25,10 +25,12 @@
         
 
       {% if all_todos|length == 0 %}
+      <div class="alert alert-warning mt-3" role="alert"></div>
     
         no records found
-      {% else %}
-<table class="table">
+      </div>
+  {% else %}
+<table class="table table-striped table-hover mt-3">
   <thead>
     <tr>
       <th scope="col">SNo.</th>
