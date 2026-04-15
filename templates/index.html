@@ -45,11 +45,16 @@
 {% for todo in all_todos  %}
       <tr>
       <th scope="row">{{ loop.index }}</th>
-      <td>{{ todo.title }}</td>
+      <td>{% if todo.completed %}
+    <s>{{ todo.title }}</s>
+  {% else %}
+    {{ todo.title }}
+  {% endif %}</td>
       <td>{{ todo.description }}</td>
       <td>{{ todo.date_created }}</td>
       <td><a href="/update/{{ todo.sno }}" type="button" class="btn btn-outline-dark btn-sm mx-1">Update</a>
           <a href="/delete/{{ todo.sno }}"type="button" class="btn btn-outline-dark btn-sm mx-1">Delete</a>
+          <a href="/complete/{{ todo.sno }}" class="btn btn-success btn-sm mx-1">Complete</a>
     </td>
     </tr>
     {% endfor %}
