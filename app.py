@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import pytz
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@localhost/todo_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -80,6 +80,10 @@ def search():
         all_todos = Todo.query.all()
     
     return render_template('index.html', all_todos=all_todos, query=query)
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 
 if __name__ == '__main__':
