@@ -4,10 +4,7 @@ from datetime import datetime
 import pytz
 import os
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-    "DATABASE_URL",
-    "sqlite:///todo.db"
-)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://sql12823381:aA2AKsb7ip@sql12.freesqldatabase.com:3306/sql12823381'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
