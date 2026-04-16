@@ -3,9 +3,18 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import pytz
 import os
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://sql12823381:aA2AKsb7ip@sql12.freesqldatabase.com:3306/sql12823381'
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    'DATABASE_URL',
+    'mysql+pymysql://sql12823381:aA2AKsb7ip@sql12.freesqldatabase.com:3306/sql12823381'
+)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
 db = SQLAlchemy(app)
 
 
@@ -18,14 +27,18 @@ class Todo(db.Model):
     description = db.Column(db.String(500), nullable=True)
     date_created = db.Column(db.DateTime, default=ist_time)
     completed = db.Column(db.Boolean, default=False)
-                             
+
 
     def __repr__(self) -> str:
         return f"{self.sno} - {self.title}"
 
 
+with app.app_context():
+    db.create_all()
+
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
+
     if request.method == 'POST':
 
         title = request.form['title']
@@ -33,9 +46,10 @@ def hello_world():
         todo = Todo(title=title, description=desc)
         db.session.add(todo)
         db.session.commit()
-
+        
 
         return redirect('/')
+
     all_todos = Todo.query.all()
     return render_template('index.html', all_todos=all_todos)
 
@@ -52,9 +66,9 @@ def update(sno):
     if request.method == 'POST':
         todo.title = request.form['title']
         todo.description = request.form['desc']
-
         db.session.commit()
         return redirect('/')
+
     return render_template('update.html', todo=todo)
 
 @app.route('/delete/<int:sno>')
@@ -73,13 +87,13 @@ def complete(sno):
 
 @app.route('/search')
 def search():
-    query = request.args.get('query')   
-    
+    query = request.args.get('query')
+
     if query:
         all_todos = Todo.query.filter(Todo.title.contains(query)).all()
     else:
         all_todos = Todo.query.all()
-    
+
     return render_template('index.html', all_todos=all_todos, query=query)
 
 @app.route("/about")
