@@ -27,8 +27,19 @@
         <li class="nav-item">
           <a class="nav-link" href="/about">About</a> 
         </li>
+        
          
       </ul>
+
+      
+      {% if session.get('user_id') and user %}
+        <span class="me-3">Hello, {{ user.username }}</span>
+      {% endif %}
+
+      {% if session.get('user_id') %}
+         <a href="/logout" class="btn btn-outline-danger me-2">Logout</a>
+      {% endif %}
+
       <form class="d-flex" action="/search" method="GET">
         <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search"/>
         <button class="btn btn-outline-success" type="submit">Search</button>
