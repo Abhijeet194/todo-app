@@ -1,18 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Todo</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Update Todo{% endblock title %}
 
-<h2>Update Todo</h2>
+{% block body %}
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+
+  <div class="card shadow p-4" style="width: 400px;">
+
+```
+<h3 class="text-center mb-3">Update Todo</h3>
 
 <form method="POST">
-    <input type="text" name="title" value="{{todo.title}}" required><br><br>
-    <input type="text" name="desc" value="{{todo.description}}"><br><br>
-    
-    <button type="submit">Update</button>
+
+  <div class="mb-3">
+    <label class="form-label">Title</label>
+    <input type="text" name="title" value="{{ todo.title }}" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+    <input type="text" name="desc" value="{{ todo.description }}" class="form-control">
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100">Update</button>
+
 </form>
 
-</body>
-</html>
+<a href="/" class="btn btn-secondary mt-3 w-100">Back</a>
+```
+
+  </div>
+
+</div>
+
+{% endblock body %}
