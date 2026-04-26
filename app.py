@@ -11,9 +11,8 @@ app.secret_key = "a8f9d3k2l9x7q1w5z6m4n2p8r0t3y7u"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
     'DATABASE_URL',
-    'mysql+pymysql://sql12823381:aA2AKsb7ip@sql12.freesqldatabase.com:3306/sql12823381'
+    'sqlite:///todo.db'
 )
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
@@ -134,6 +133,10 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            return "Username already exists. Try another."
 
         user = User(username=username)
         user.set_password(password)
